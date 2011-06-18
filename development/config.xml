@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="http://www.akademy.co.uk/software/APODSpeedDial/" defaultlocale="en" viewmodes="minimized" version="0.1">
+	<name short="BBC News Ticker">APOD Speeddial</name>
+	<description xml:lang="en">Update from the Astronomy Picture Of the Day website.</description>
+	<author href="http://www.akademy.co.uk/me">Matthew Wilcoxson</author>
+    
+    <feature name="opera:speeddial" required="true">
+        <param name="url" value="http://apod.nasa.gov/apod/astropix.html"/>
+    </feature> 
+    
+    <access origin="http://apod.nasa.gov" subdomains="false"/>
+    <access origin="http://www.acme.com" subdomains="false"/>
+    
+   <icon src="images/icon.png"/>
+</widget>
