@@ -1,10 +1,10 @@
 window.addEventListener( 'load', function() {
     var apodFeed = null;
-    var feedMax = 6;
+    var feedMax = 7;
     var feedUpdate = 60; // Minutes
     var feedCount = 0;
     
-    var debugging = true;
+    var debugging = false;
     
     var mainData = {};
     var othersData = {};
@@ -134,7 +134,7 @@ window.addEventListener( 'load', function() {
                 changeMain();
             }
             else {
-                mainTimeout = setTimeout( function () { changeMain(); }, mainData.change );
+                mainTimeout = setTimeout( function () { changeMain(); }, 7000 * (8 - mainData.current) );
             }
         }
     }
@@ -232,17 +232,17 @@ window.addEventListener( 'load', function() {
     	if( size === 'large' )
 	    { 
 			// large view
-	      mainData = { min: 0, max: feedCount-1, current: -1, change: 6000 * speed };
+	      mainData = { min: 0, max: feedCount-1, current: -1, change: 15000 * speed };
 			othersData = { min: 1, max: feedCount-1, current: -1, change: 6000 * speed };
 	    }
 	    else if ( size === 'big' || size === 'bigger' ){
 	    	// big view		    	
-	      mainData = { min: 0, max: feedCount-1, current: -1, change: 6000 * speed };
+	      mainData = { min: 0, max: feedCount-1, current: -1, change: 15000 * speed };
 			othersData = { min: 5, max: feedCount-1, current: -1, change: 4000 * speed };
 	    }
 	    else {
 	    	// small view or tiny view
-	      mainData = { min: 0, max: feedCount-1, current: -1, change: 6000 * speed };
+	      mainData = { min: 0, max: feedCount-1, current: -1, change: 15000 * speed };
 			//othersData = { min: 0, max: 0, current: 0, change: 0 };
 		}
     }
