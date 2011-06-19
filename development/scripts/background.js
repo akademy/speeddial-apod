@@ -233,12 +233,12 @@ window.addEventListener( 'load', function() {
 	    { 
 			// large view
 	      mainData = { min: 0, max: feedCount-1, current: -1, change: 15000 * speed };
-			othersData = { min: 1, max: feedCount-1, current: -1, change: 6000 * speed };
+			//othersData = { min: 1, max: feedCount-1, current: -1, change: 6000 * speed };
 	    }
 	    else if ( size === 'big' || size === 'bigger' ){
 	    	// big view		    	
 	      mainData = { min: 0, max: feedCount-1, current: -1, change: 15000 * speed };
-			othersData = { min: 5, max: feedCount-1, current: -1, change: 4000 * speed };
+			//othersData = { min: 5, max: feedCount-1, current: -1, change: 4000 * speed };
 	    }
 	    else {
 	    	// small view or tiny view
@@ -252,12 +252,12 @@ window.addEventListener( 'load', function() {
 	    { 
 			// large view
 			startMainTimer();
-			startOthersTimer();
+			stopOthersTimer();
 	    }
 	    else if ( size === 'big' || size === 'bigger' ){
 	    	// big view
 			startMainTimer();
-			startOthersTimer();
+			stopOthersTimer();
 	    }
 	    else {
 	    	// small view or tiny view
@@ -271,12 +271,12 @@ window.addEventListener( 'load', function() {
 	    { 
 			// large view
 			changeMain();
-			changeOthers();
+			stopOthersTimer();
 	    }
 	    else if ( size === 'big' || size === 'bigger' ){
 	    	// big view
 			changeMain();
-			changeOthers();
+			stopOthersTimer();
 	    }
 	    else {
 	    	// small view or tiny view
