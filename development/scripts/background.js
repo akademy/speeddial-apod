@@ -1,15 +1,15 @@
 window.addEventListener( 'load', function() {
     var apodFeed = null;
-    var updateDate = null;
     var feedMax = 6;
     var feedUpdate = 60; // Minutes
     var feedCount = 0;
     
-    var debugging = false;
+    var debugging = true;
     
     var mainData = {};
     var othersData = {};
     
+    var speed = 2;
     var size = '';
     var width = -1;
     var stopped = -1;
@@ -19,7 +19,7 @@ window.addEventListener( 'load', function() {
     var rssFeed = 'http://www.acme.com/jef/apod/rss.xml';
     var urlLink = 'http://apod.nasa.gov/apod/';
     
-    function animationHide( animObj, move, animType ) {
+    function animationHide( animObj, move ) {
 	    
 	    if( !animObj.checkRun ) {
 	    	animObj = animObj.createAnimation();
@@ -31,12 +31,12 @@ window.addEventListener( 'load', function() {
 			animObj.addAnimation( 'opacity', '1.0', '0.0' );
 		
         animObj.accelerationProfile = animObj.accelerate;
-        animObj.speed = 12;
+        animObj.speed = 15;
         
         return animObj;
     }
     
-    function animationShow( animObj, move, animType ) {
+    function animationShow( animObj, move ) {
 	    
 	    if( !animObj.checkRun ) {
 	    	animObj = animObj.createAnimation();
@@ -48,7 +48,7 @@ window.addEventListener( 'load', function() {
 			animObj.addAnimation( 'opacity', '0.0', '1.0' );
 	
 		animObj.accelerationProfile = animObj.decelerate;
-		animObj.speed = 6; 
+		animObj.speed = 15; 
         
         return animObj;
     }
@@ -57,9 +57,8 @@ window.addEventListener( 'load', function() {
     {
 	    var obj = document.querySelector( objId );
 	    var move = width;
-	    var animType = anim;
 		
-	    var animObj = animationHide( obj, move, animType );
+	    var animObj = animationHide( obj, move );
 	    
 	    animObj.onfinish = function() { 
 	    
@@ -70,24 +69,10 @@ window.addEventListener( 'load', function() {
 	    	
 	    	var title = feed.getTitle();
 	    	var description = feed.getDesc();
-	    	var photoLarge = feed.getLargePhoto();
-	    	var photoSmall = feed.getSmallPhoto();
-	    	
-		    var display = '';
-		    
-		    if( photoLarge ) {
-			    display += '<img class="img_lar" width="' + photoLarge.width + '" height="' + photoLarge.height + '" src="' + photoLarge.url + '"/>';
-			 }
-		    if( photoSmall ) {
-			    display += '<img class="img_sma" width="' + photoSmall.width + '" height="' + photoSmall.height + '" src="' + photoSmall.url + '"/>';
-			 }
 
-            display += '<div class="title">' + getText( title ) + '</div>';
-		    display += '<div class="desc">' + getText( description ) + '</div>';
-
-	    	obj.innerHTML = display;
+         obj.innerHTML = '<div class="title"><span class="num">' + (number+1) + "</span> " + getText( title ) + '</div><div class="desc">' + getText( description ) + '</div>';
 	    	
-	    	animObj = animationShow( obj, move, animType );
+	    	animObj = animationShow( obj, move );
 	    	
 	    	/*if( haveNext( data ) ) {
 	    		animObj.onfinsh = function() {
@@ -140,8 +125,8 @@ window.addEventListener( 'load', function() {
     }
     
     function changeMain() {
-	    stopLatestTimer();
-        change( '#main article', mainData,  function() { startMainTimer(); } );
+	    stopMainTimer();
+        change( '#apod article', mainData,  function() { startMainTimer(); } );
     }
     function startMainTimer() {
         if( mainTimeout === stopped ) {
@@ -162,7 +147,7 @@ window.addEventListener( 'load', function() {
     
     function changeOthers() {
     	stopOthersTimer();
-        change( '#flow', othersData, function() { startOthersTimer(); } );
+        change( '#flow article', othersData, function() { startOthersTimer(); } );
     }
     function startOthersTimer() {
         if( othersTimeout === stopped ) {
@@ -189,9 +174,6 @@ window.addEventListener( 'load', function() {
                 
             }
         }
-        
-        updateDate = new Date();
-        updateTitle();
     }
     
     
@@ -250,17 +232,17 @@ window.addEventListener( 'load', function() {
     	if( size === 'large' )
 	    { 
 			// large view
-	      mainData = { min: 0, max: 0, current: -1, change: 0 };
+	      mainData = { min: 0, max: feedCount-1, current: -1, change: 6000 * speed };
 			othersData = { min: 1, max: feedCount-1, current: -1, change: 6000 * speed };
 	    }
 	    else if ( size === 'big' || size === 'bigger' ){
 	    	// big view		    	
-	      mainData = { min: 0, max: 0, current: -1, change: 6000 * speed };
+	      mainData = { min: 0, max: feedCount-1, current: -1, change: 6000 * speed };
 			othersData = { min: 5, max: feedCount-1, current: -1, change: 4000 * speed };
 	    }
 	    else {
 	    	// small view or tiny view
-	      mainData = { min: 0, max: 0, current: -1, change: 0 };
+	      mainData = { min: 0, max: feedCount-1, current: -1, change: 6000 * speed };
 			//othersData = { min: 0, max: 0, current: 0, change: 0 };
 		}
     }

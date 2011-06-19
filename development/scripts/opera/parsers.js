@@ -107,7 +107,7 @@ function rssPattern(item, isHTML) {
 
 	var content = item.getNodeValueByTagName('description');
 	if (content) {
-		if (isHTML) {
+		if (false && isHTML) {
 			var rnode = document.createElement('div');
 			rnode.innerHTML = content;
 			content = document.createDocumentFragment();
