@@ -117,10 +117,6 @@ function rssPattern(item, isHTML) {
 		}
 	}
 	
-		var links = item.getElementsByTagName('link');
-	var link = null;
-
-	
 	var photos = item.getElementsByTagName('thumbnail');
 	var thumbnails = [];
 	if( photos.length > 0 ) {

@@ -63,17 +63,23 @@ window.addEventListener( 'load', function() {
 	    animObj.onfinish = function() { 
 	    
 	    	var number = next( data );
+            if ( debugging ) {
+                //number = 4;
+            }
 	    	var feed = apodFeed.getItemList()[number];
 	    
-	    	var pubed = feed.getDate();
-	    	
 	    	var title = feed.getTitle();
 	    	var description = feed.getDesc();
+	    	var pubed = feed.getDate();
 
-         obj.innerHTML = '<div class="title"><span class="num">' + (number+1) + "</span> " + getText( title ) + '</div><div class="desc">' + getText( description ) + '</div>';
+            //var date = pubed.getDate() + '/' + (pubed.getMonth()+1);<span class="num">' + (date) + "</span> 
+            obj.innerHTML = '<div class="title">' + getText( title ) + '</div><div class="desc">' + getText( description ) + '</div>';
 	    	
 	    	animObj = animationShow( obj, move );
 	    	
+            updateTitle( pubed )
+            updateUrl( getText( feed.getLink() ) )
+            
 	    	/*if( haveNext( data ) ) {
 	    		animObj.onfinsh = function() {
 	    			timerFunction();
@@ -134,7 +140,13 @@ window.addEventListener( 'load', function() {
                 changeMain();
             }
             else {
-                mainTimeout = setTimeout( function () { changeMain(); }, 7000 * (8 - mainData.current) );
+                // Rotate image with todays being shown for the longest time.
+                var current = 7 - Math.max(mainData.current,0);
+                var time = Math.pow(2,Math.max(current,3) ) * 1000;
+                if ( debugging ) {
+                    time = 10000;
+                }
+                mainTimeout = setTimeout( function () { changeMain(); }, time );
             }
         }
     }
@@ -176,6 +188,34 @@ window.addEventListener( 'load', function() {
         }
     }
     
+    function updateTitle( date )
+    {
+        var monthsShort = ['Jan','Feb','March','April','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+        
+    	if (opera.contexts.speeddial) { 
+            var today = new Date();
+            var dateStr = ''
+            
+            if ( today.getDate() == date.getDate() && today.getMonth() === date.getMonth() ) {
+                dateStr = "Today's";
+            }
+            else {
+                dateStr = date.getDate() + ' ' + monthsShort[date.getMonth()];
+            }
+            
+            var title = dateStr + " Astronomy Picture of the Day";
+            
+			opera.contexts.speeddial.title = title;
+		}
+    }
+    function updateUrl( url )
+    {
+        debug( "Url:" + url );
+    	if (opera.contexts.speeddial) {
+                debug( "Url:" + url );
+				opera.contexts.speeddial.url = url;
+		}
+    }
     
     window.addEventListener( 'storage', function(event) {
 		debug( "Storage event: " + event.key + " " + event.oldValue + " " + event.newValue );

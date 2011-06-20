@@ -123,9 +123,9 @@ article {
   Item title
 */
 #apod .title {
-	width: 100%;
+	width: 95%;
 	color: white;
-	opacity: 0.8;
+	opacity: 0.7;
 	position: absolute;
 	text-shadow: 0px 0px 10px #000;
 	padding: 3px 0 0 3px;
